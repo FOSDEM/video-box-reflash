@@ -1,0 +1,16 @@
+#setenv diargs <EXTRA ARGUMENTS>
+
+setenv fdt_addr       0x43000000
+setenv ramdisk_addr_r 0x48000000
+setenv kernel_addr_r  0x47000000
+
+setenv dibase /didaily/armhf/daily
+
+tftp ${kernel_addr_r} ${dibase}/netboot/vmlinuz
+setenv bootargs "console=ttyS0,115200 --- ${diargs}"
+
+tftp ${fdt_addr} ${dibase}/device-tree/sun7i-a20-bananapi.dtb
+fdt addr ${fdt_addr} 0x40000
+
+tftp ${ramdisk_addr_r} ${dibase}/netboot/initrd.gz
+bootz ${kernel_addr_r} ${ramdisk_addr_r}:${filesize} ${fdt_addr}

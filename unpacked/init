@@ -1,0 +1,35 @@
+#!/bin/sh -e
+# used for initramfs
+export PATH
+. /lib/debian-installer/init-debug
+debugshell "just booted"
+
+set +x
+
+mount /run
+mkdir -p /run/lock
+mount /proc
+mount /sys
+/lib/debian-installer/start-udev
+
+depmod -a
+modprobe ext4
+modprobe vfat
+modprobe ahci_sunxi
+#udhcpc eth0 || true
+
+while ! [ -b /dev/sda ] ; do
+	sleep 1
+done
+while ! [ -b /dev/mmcblk0 ] ; do
+	sleep 1
+done
+
+mount /dev/sda /mnt && dd if=/mnt/FLASH.IMG of=/dev/mmcblk0 bs=1M
+umount /mnt || true
+sync
+sleep 1
+sync
+sleep 1
+sync
+echo b > /proc/sysrq-trigger

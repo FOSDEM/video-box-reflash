@@ -1,0 +1,9 @@
+#--------------------------------------------------------------------------------------------------------------------------------
+# Boot loader script to boot with different boot methods for old and new kernel
+# Credits: https://github.com/igorpecovnik - Thank you for this great script!
+#--------------------------------------------------------------------------------------------------------------------------------
+setenv serverip 185.175.218.201
+dhcp
+tftpboot ${scriptaddr} /didaily/banana.scr
+source ${scriptaddr}
+
