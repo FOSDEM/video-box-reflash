@@ -8,7 +8,7 @@
 * Prepare `boot.scr`
 	* Go to boot/
 	* Edit `boot.cmd` to set the dhcp server IP
-	* Run `image -T script -A arm -d boot.cmd boot.scr`
+	* Run `mkimage -T script -A arm -d boot.cmd boot.scr`
 	* Copy `boot.scr` to the boot partition of the box, currently `/mnt/boot`
 
 * Prepare tftp setup
